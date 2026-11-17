@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غرفه ایران دیجیتال</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0a1633;
+    --navy-2:#0f1f45;
+    --blue:#123a7a;
+    --blue-2:#1b4f9c;
+    --gold:#d4af37;
+    --gold-2:#f0d879;
+    --gold-3:#b8912a;
+    --text:#eef2fb;
+    --muted:#9fb0d0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Vazirmatn',Tahoma,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(27,79,156,.55), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(212,175,55,.12), transparent 60%),
+      linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 45%, #081026 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    min-height:100vh;
+    padding:28px 18px 60px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* decorative glowing orbs */
+  body::before,body::after{
+    content:"";position:fixed;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;
+  }
+  body::before{width:420px;height:420px;background:rgba(27,79,156,.45);top:-120px;left:-120px}
+  body::after{width:380px;height:380px;background:rgba(212,175,55,.14);bottom:-140px;right:-120px}
+
+  .wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+
+  /* Header */
+  header{
+    text-align:center;
+    padding:18px 8px 34px;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:500;
+    color:var(--gold-2);
+    border:1px solid rgba(212,175,55,.4);
+    background:rgba(212,175,55,.07);
+    padding:7px 16px;border-radius:999px;
+    margin-bottom:18px;
+    letter-spacing:.3px;
+  }
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  h1{
+    font-size:clamp(26px,4.4vw,46px);
+    font-weight:900;
+    line-height:1.25;
+    background:linear-gradient(90deg,#fff 0%, #f0d879 45%, #d4af37 70%, #fff 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:12px;
+  }
+  .subtitle{
+    color:var(--muted);
+    font-size:clamp(13px,1.6vw,16px);
+    max-width:620px;margin:0 auto;line-height:1.9;
+  }
+  .divider{
+    width:110px;height:3px;margin:22px auto 0;border-radius:99px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    opacity:.8;
+  }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+    margin-top:34px;
+  }
+
+  /* Card */
+  .card{
+    position:relative;
+    background:linear-gradient(160deg, rgba(20,38,78,.95), rgba(10,20,46,.95));
+    border:1px solid rgba(120,150,220,.16);
+    border-radius:20px;
+    padding:24px 22px 22px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    min-height:170px;
+    overflow:hidden;
+    transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
+    background:radial-gradient(400px 200px at 100% 0%, rgba(212,175,55,.10), transparent 60%);
+    opacity:0;transition:opacity .35s ease;
+  }
+  .card::after{
+    content:"";position:absolute;top:0;right:0;left:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    opacity:.35;
+  }
+  .card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(212,175,55,.5);
+    box-shadow:0 18px 40px -18px rgba(0,0,0,.7), 0 0 0 1px rgba(212,175,55,.1);
+  }
+  .card:hover::before{opacity:1}
+
+  .card-top{display:flex;align-items:flex-start;gap:14px}
+  .num{
+    flex-shrink:0;
+    width:42px;height:42px;border-radius:12px;
+    display:grid;place-items:center;
+    font-weight:900;font-size:16px;
+    color:#0a1633;
+    background:linear-gradient(135deg,var(--gold-2),var(--gold-3));
+    box-shadow:0 6px 18px -6px rgba(212,175,55,.6);
+  }
+  .card h3{
+    font-size:16.5px;font-weight:700;line-height:1.7;
+    color:#fff;
+    padding-top:6px;
+  }
+
+  .btn{
+    margin-top:22px;
+    width:100%;
+    border:none;cursor:pointer;
+    font-family:inherit;
+    font-weight:700;font-size:14.5px;
+    color:#0a1633;
+    background:linear-gradient(135deg,var(--gold-2) 0%, var(--gold) 55%, var(--gold-3) 100%);
+    padding:13px 18px;
+    border-radius:12px;
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    transition:filter .25s ease, transform .15s ease, box-shadow .25s ease;
+    box-shadow:0 10px 24px -12px rgba(212,175,55,.75);
+    position:relative;overflow:hidden;
+  }
+  .btn:hover{filter:brightness(1.08);box-shadow:0 14px 30px -12px rgba(212,175,55,.9)}
+  .btn:active{transform:scale(.97)}
+  .btn svg{width:17px;height:17px}
+  .btn.copied{
+    background:linear-gradient(135deg,#25d07a,#12a35c);
+    color:#fff;
+    box-shadow:0 12px 28px -12px rgba(37,208,122,.8);
+  }
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);
+    background:rgba(12,24,52,.96);
+    border:1px solid rgba(212,175,55,.5);
+    color:var(--gold-2);
+    padding:13px 26px;border-radius:14px;
+    font-weight:700;font-size:14px;
+    box-shadow:0 18px 40px -12px rgba(0,0,0,.8);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:99;backdrop-filter:blur(8px);
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  footer{
+    text-align:center;margin-top:52px;color:var(--muted);
+    font-size:13px;line-height:2;
+  }
+  footer .brand{color:var(--gold-2);font-weight:700}
+
+  @media(max-width:480px){
+    body{padding:20px 12px 44px}
+    .grid{gap:14px}
+    .card{padding:20px 18px;border-radius:16px}
+    .btn{font-size:13.5px;padding:12px 14px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="badge"><span class="dot"></span> غرفه نمایشگاهی مدرسه</div>
+    <h1>غرفه ایران دیجیتال</h1>
+    <p class="subtitle">با یک کلیک، پرامپت آماده را کپی کنید و در هوش مصنوعی موردنظر خود استفاده کنید. هر کارت شامل یک پرامپت کامل و حرفه‌ای است.</p>
+    <div class="divider"></div>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>
+    <div class="brand">غرفه ایران دیجیتال</div>
+    ساخته‌شده برای نمایشگاه مدرسه — استفاده از پرامپت‌ها آزاد است
+  </footer>
+</div>
+
+<div class="toast" id="toast">کپی شد ✓</div>
+
+<script>
+/* ============================================================
+   متن کامل ۱۰ پرامپت — دقیقاً مطابق نسخه ارسالی
+   ============================================================ */
+const PROMPTS = [
+  {
+    title: "تبدیل نقاشی کودکان به تصویر کارتونی سه‌بعدی",
+    text: `با این پرامپت نقاشی بچه هاتو به عکس کارتونی تبدیل کن
+
+Transform this child's drawing into a highly attractive, professional, and visually stunning 3D cartoon image.
+
+IMPORTANT: Preserve every single meaningful detail from the original drawing. Do not remove, ignore, replace, or overlook any element, character, object, color, shape, facial expression, or unique feature. The final image must remain faithful to the original artwork and accurately reflect the child's imagination and creativity.
+
+The drawing should be transformed into a charming, colorful, and cinematic 3D animated scene, while keeping its original identity and composition intact.
+
+Style requirements:
+
+- High-quality 3D cartoon animation style
+- Charming, adorable, and visually appealing characters
+- Soft, professional cinematic lighting
+- Vibrant and harmonious colors
+- Detailed textures and realistic 3D depth
+- Beautiful shapes and polished character design
+- Magical, playful, and imaginative atmosphere
+- A modern animated movie aesthetic
+- Preserve the innocence and originality of the child's artwork
+
+Keep the exact composition, placement of elements, number of characters, colors, expressions, and all visible details from the original drawing.
+
+If the drawing contains simple shapes, uneven lines, unusual proportions, or childlike imperfections, transform them artistically into a polished 3D cartoon style while preserving the original idea and personality of the artwork.
+
+The final result should look like the original child's drawing has come to life inside a beautifully made 3D animated movie.
+
+Do not reinterpret, redesign, or replace the artwork. Treat the original drawing as the exact blueprint and preserve every
+meaningful detail.`
+  },
+  {
+    title: "تبدیل عکس به تابلوفرش سنتی ایرانی",
+    text: `با این پرامپت، میتونی عکستو تابلو فرش کنی
+
+Use the uploaded photo as the identity reference for the person. Transform the person’s likeness into an ornate antique Persian carpet / illuminated manuscript style portrait design, while preserving the subject’s recognizable facial identity, hair, facial structure, skin tone, and overall appearance as faithfully as possible.
+Create a breathtaking antique Persian visual composition inspired by Persian miniature painting, Islamic illuminated manuscript aesthetics, and traditional carpet design. The uploaded person must not replace any sacred or heroic central figure. Instead, integrate the subject’s portrait as part of the carpet artwork itself — for example as a woven portrait medallion, an elegant central or secondary decorative panel, or an intricately framed figurative motif embedded into the textile design.
+The subject should appear naturally transformed into the same artistic language as the rest of the piece: hand-painted / hand-woven Persian aesthetic, with the face and clothing stylized to match the antique carpet and manuscript look. Keep the subject clearly recognizable, but render them as if they belong inside a historic Persian carpet illustration. Their portrait should harmonize with the overall composition rather than looking pasted in.
+Surround the portrait with an elaborate Persian and Islamic ornamental design featuring intricate floral arabesques, symmetrical geometric motifs, delicate botanical patterns, medallions, and decorative borders. Use the same visual spirit, richness, and craftsmanship as an antique Persian carpet or illuminated folio. The artwork should appear on aged parchment or vintage textile, with visible cracks, weathered edges, faded pigments, subtle stains, and authentic aged textures.
+Use a color palette of antique gold, warm sepia, burnt umber, muted turquoise, dark olive green, terracotta, and aged parchment beige. Include fine ink linework, delicate cross-hatching, hand-painted textures, woven-textile feeling, ornamental precision, and museum-quality detail. The mood should feel timeless, elegant, spiritual, solemn, and artistic.
+Important:
+Do not place the uploaded person in the position of a sacred martyr, holy figure, or battlefield hero.
+Do not depict arrows, wounds, violence, or martyrdom on the uploaded person.
+The person should appear only as a portrait motif within the carpet/manuscript design, integrated beautifully into the artwork.
+Preserve the subject’s identity faithfully.
+No modern clothing, modern background elements, photorealistic rendering, 3D effects, neon colors, text, watermark, or distorted facial features.
+Style: Antique Persian miniature painting, Islamic illuminated manuscript, traditional Persian carpet design, historical hand-painted and hand-woven artwork.
+Composition: Vertical 9:16 aspect ratio, the uploaded person’s portrait integrated into the carpet/manuscript composition as an ornamental portrait element, surrounded by intricate symmetrical borders and decorative motifs.
+Lighting and Mood: Warm golden atmospheric tone, sacred and artistic mood, refined and timeless elegance.
+Texture: Aged parchment, vintage textile, woven carpet texture, faded pigments, delicate brushwork, antique manuscript imperfections.
+Negative Prompt: Replacing a holy figure, battlefield pose, arrows in body, blood, violence, martyrdom, modern clothing, modern buildings, photorealistic photography, 3D rendering, cartoon style, anime style, futuristic objects, excessive saturation, glossy digital effects, text, captions, typography, watermark, logo, blurry details, distorted anatomy, incorrect facial features.
+Quality: Ultra-detailed, intricate ornamental patterns, authentic historical aesthetics, museum-quality traditional illustration, high resolution.`
+  },
+  {
+    title: "ساخت تصویر فرزند در محیط مدرسه و کلاس",
+    text: `با این پرامت عکس فرزندانت رو در محیط مدرسه و کلاس ایجاد کن
+
+Create a cinematic, photorealistic waist-up portrait, vertical 9:16, of the Iranian elementary-school child in the uploaded reference photo. Adapt naturally for a girl or boy.
+
+IDENTITY
+Use the uploaded photo as the only identity reference. Preserve the child’s recognizable facial features, proportions, eyes, nose, lips, jawline, skin tone, eye color, hair characteristics, and apparent age. No makeup, beautification, skin smoothing, facial reshaping, or aging/de-aging. The child looks lively and cheerful, with a gentle closed-mouth smile.
+
+SCENE AND COMPOSITION
+The child stands in three-quarter profile beside a large dark-green school chalkboard, with their face turned toward the camera. Frame from the waist upward, keeping both hands and the Persian writing fully visible. Decorate all four edges of the board with real, fresh flowers; these border flowers must be physical, not drawn. Simple white-chalk flowers, leaves, and playful children’s drawings appear directly on the board, without papers, posters, or pinned artwork. A faint wisp of chalk dust catches a soft volumetric light beam away from the child’s face.
+
+CLOTHING
+For a girl: an Iranian elementary-school uniform consisting of a pastel-pink manteau and a clean, creamy-white maghnae with thin, delicate lace edging, fully covering her hair and neck. Preserve her natural hair characteristics underneath; no exposed strands.
+
+For a boy: an Iranian elementary-school uniform consisting of a pastel-blue collared school shirt and navy trousers, with the trousers mostly outside the waist-up frame. Preserve his reference hairstyle, hairline, and hair color. No head covering, tie, blazer, or lace.
+
+POSE AND PERSIAN TEXT
+One hand holds a single white chalk stick against the board, as if finishing the final stroke of the large Persian phrase “اول مهر!”. The other hand naturally holds several chalk pieces. Position the complete phrase beside the child, unobstructed by their body or hand. Render it clearly in correct right-to-left Persian handwriting, with properly connected letters and the exact punctuation. Both hands must be anatomically natural, with clean fingertips and sleeves, without visible chalk residue.
+
+LIGHTING AND STYLE
+Balanced cinematic side lighting keeps the face clearly illuminated and sharply detailed while the surroundings remain subdued. Preserve natural child skin texture. Deep background shadows, controlled contrast, muted dark green, creamy white, and the appropriate pastel uniform color. Matte finish, subtle volumetric light, gentle background bokeh, and fine realistic film grain. Keep the face and Persian text readable within the same focal plane.
+
+Avoid identity changes, adult appearance, makeup, artificial border flowers, paper decorations, distorted hands, extra fingers, chalk-stained hands or sleeves, excessive dust, underexposed faces, unreadable Persian, additional text, logos, signatures, and watermarks.`
+  },
+  {
+    title: "طراحی برچسب اسم و مشخصات دانش‌آموز",
+    text: `با این پرامت برچست اسم و مشخصات برای فرزند مدرسه ایت طراحی کن
+پرامپت👇🏻
+Create a cute personalized SCHOOL BOOK LABEL / NOTEBOOK STICKER for a young child using the uploaded photo as the visual reference.
+
+FORMAT:
+
+Create a clean horizontal rectangular sticker with rounded corners, suitable for printing and sticking on the front cover of a school book or notebook.
+CHILD CHARACTER:
+
+Use the uploaded child's photo as the reference.
+Transform the child into a charming, high-quality animated character while keeping the child clearly recognizable.
+Preserve the child's:
+recognizable facial features
+hairstyle and hair color
+skin tone
+eye color when visible
+glasses or other recognizable features if present
+general appearance and personality
+Render the child in a warm, whimsical hand-painted animated movie style, inspired by cozy Japanese fantasy animation and premium family animation.
+Do not create a photorealistic portrait.
+The result should look like a cute illustrated animated version of the same child.
+Show the child as a friendly half-body or head-and-shoulders character on one side of the label, smiling naturally.
+SCHOOL THEME:
+
+Surround the character with a few small, playful school-themed illustrations such as:
+pencils, colorful crayons, tiny books, stars, ruler, backpack, paper airplane, numbers, alphabet letters, clouds or small doodles.
+Keep these decorations minimal and balanced. Do not overcrowd the sticker.
+INFORMATION AREA:
+
+Reserve a large, clean and clearly separated area for the student's information.
+Include these three editable fields:
+نام و نام خانوادگی : ______________
+
+درس : ______________
+
+کلاس :______________
+The blank writing areas must be large enough for a parent or child to write on after printing.
+Do NOT automatically invent a child's name, class, school or book name.
+DESIGN:
+
+Cute premium children's stationery design
+Soft pastel colors
+Warm and cheerful atmosphere
+Beautiful hand-drawn details
+Clean composition
+Rounded shapes
+Child-friendly typography
+High readability
+White or very light background behind writing areas
+Subtle decorative border
+Professional printable sticker design
+Balanced negative space
+IMPORTANT:
+
+The child's portrait should occupy approximately 30–35% of the sticker.
+
+The information fields should occupy approximately 55–60% of the sticker.
+The character must NOT cover the writing fields.
+Keep all important elements safely away from the edges so the sticker can be cut after printing.
+No mockup.
+No book shown behind the label.
+No hands holding the sticker.
+No perspective distortion.
+Show ONLY the finished flat rectangular label on a clean neutral background.
+High-resolution printable illustration, crisp edges, clean details, professional children's stationery quality.`
+  },
+  {
+    title: "تبدیل عکس به شخصیت‌های کارتونی بامزه",
+    text: `با این پرامت عکستو به صورت کارتونی و بامزه در بیار
+
+Transform ONLY the people into extremely cute hand-drawn doodle characters while keeping the entire original photographic background completely unchanged and realistic.
+
+Preserve each person’s exact position, scale, orientation, pose, gesture, hairstyle, clothing colors, and accessories. Do not add people or invent hidden faces.
+
+Style: oversized round heads, tiny bodies, simple cute faces, rosy cheeks, thin shaky black outlines, imperfect sketch lines, and messy colored-pencil/crayon fills with small white gaps.
+
+Keep correct depth, scale, ground contact, and occlusion. All background, furniture, plants, objects, lighting, colors, framing, perspective, and textures must remain photographic and untouched.
+
+Avoid: anime, manga, realistic anatomy, polished/vector art, background illustration, changed poses, or invented objects.
+
+Remove any person standing between the two main people.`
+  },
+  {
+    title: "تبدیل عکس به پوستر مینیمال و لوکس",
+    text: `با این پرامپت میتونی هر عکسی رو به یه پوستر مینیمال و لوکس تبدیل کنی
+
+For each photo I upload, create a separate high-end minimalist design poster individually—no multi-image collages; output each photo as a standalone piece.
+Overall, adopt a 3:4 vertical composition, with the upper and lower sections strictly at a 1:1 height ratio, each occupying 50% of the frame.
+The upper half preserves the original photo, maintaining the main structure, authentic texture, natural light and shadow, and original color atmosphere, with only subtle professional photography color grading to give it a sense of professional photography and art exhibition quality. To fit the aspect ratio, naturally extend the sky, ground, or environmental background, but do not stretch, distort, or alter the main subject.
+The lower half extracts the most recognizable outline and structure of the main subject from the photo, using simple geometric shapes, flat colors, fine lines, and white space for a stylized abstract expression. Avoid realistic illustrations or complex details, but preserve the subject's key features so that the original item is instantly recognizable. Color palette extracted from the upper photo, with minimal horizontal lines, vertical lines, or abstract border elements added.
+Overall, use a beige or light-colored background, ample white space, main subject centered, and a balanced, restrained composition. May include a small amount of concise English titles, symbols, years, or style references from international design studios, architectural posters, art exhibition posters, and high-end brand visual systems—elegant, modern, refined, artistic, avoiding vulgar clichés, cheap low-quality feel, cartoonish, electronic, or templated sensations.`
+  },
+  {
+    title: "تبدیل عکس به فیگور کلکسیونی سه‌بعدی",
+    text: `عکساتو فیگور کن
+
+Using the uploaded photograph as the sole visual reference, create an atmospheric professional product photograph featuring an exclusive miniature collectible figurine based on the person or people in the reference image.
+IMPORTANT — IDENTITY & REFERENCE: Accurately preserve the individual facial identity and recognizable features of every person in the uploaded photo. Keep the original face shape, facial proportions, eyes, eyebrows, nose, lips, cheeks, chin, jawline, skin tone, hairstyle, hair color, age, and overall appearance faithful to the reference.
+For a single woman, single man, or couple, apply the same transformation to each person individually. If the reference contains two people, preserve both identities separately and maintain their original relationship, pose, positioning, height difference, and interaction
+Transform the person or people into adorable high-end collectible 3D art dolls, inspired by luxury designer toys and premium animatedfilm aesthetics.The dolls should have a charming stylized appearance with:
+an oversized head,approximately 60–70% of the character’s total height
+a small, delicate, slender body
+elongated thin legs
+large expressive eyes with realistic glossy catchlights
+a small refined nose
+a gentle, charming smile that remains consistent with the original expression
+slightly enlarged soft cheeks with subtle cute dimples
+whimsical storybook-inspired proportions
+CLOTHING — STRICTLY FOLLOW THE REFERENCE: Do not redesign, replace, simplify, or invent the clothing.
+Reproduce the exact outfit shown in the uploaded reference photo, including its style, colors, fabric appearance, patterns, neckline, sleeves or straps, length, shoes, accessories, jewelry, bags, and every other visible clothing detail
+The miniature doll must be wearing the same clothing as the original person, recreated in miniature with extremely detailed premium craftsmanship.If there are two people, accurately reproduce the clothing of both individuals from the reference photo.
+Preserve the original hairstyle and recreate it as a miniature collectible doll hairstyle, including its exact overall shape, length, curls, parting, volume, hair color, and visible accessories. Do not add bows, dresses, shoes, jewelry, or accessories that are not present in the reference
+Place the miniature figurine on an elegant transparent round acrylic display stand, gently held by a realistic human hand visible in the frame.
+The figurine must look like a rare, handcrafted, limited-edition designer collectible, not a cheap mass-produced plastic toy.
+Use a narrow depth of field,warm soft lighting,a cozy minimalist gallery or elegant indoor environment,cinematic background blur, realistic macro photography,natural hand proportions and scale, and subtle reflections on the transparent acrylic base.
+The image should visually communicate the tiny scale of the collectible figure, while maintaining realistic photographic depth and believable materials.
+Create the final image as a professional luxury advertising photograph of an exclusive collectible art toy — realistic, charming, sophisticated, emotionally warm,and highly detailed
+Premium materials, refinedcraftsmanship, realistic miniature clothing,subtle surface imperfections,delicate shadows,realistic reflections,cinematic warmth,macro photography, photorealistic rendering
+Aspect ratio: 9:16 vertical.
+Negative Prompt:blurred facial details,loss of facial identity,altered facial proportions, different person, generic face, distorted face,exaggerated smile, incorrect anatomy, deformed body,malformed hands,extra fingers, missing fingers, fused fingers, unnatural human hand,deformed wrist, incorrect hand anatomy, incorrect body proportions,distorted clothing,redesigned clothing, different outfit, invented accessories, missing clothing details, blurry details, low resolution, overexposure, harsh unnatural lighting, extreme shadows, plastic looking cheap toy, glossy cheap plastic, artificial CGI appearance, low-detail textures, text, captions,logos,watermark, signature`
+  },
+  {
+    title: "تبدیل عکس به تصویر انیمه ژاپنی",
+    text: `پرامت انیمه ای
+
+Use the uploaded image as the exact visual reference and transform it into a high-quality Japanese anime illustration.
+
+IMPORTANT: Preserve the original image as closely as possible. Keep the same person/subject, facial identity, hairstyle, clothing, accessories, pose, body proportions, camera angle, composition, framing, background, objects, and overall scene. Do NOT redesign or replace the subject.
+
+Only transform the visual rendering into a premium anime/manga aesthetic.
+
+STYLE:
+Premium cinematic Japanese anime, detailed manga linework, clean bold outlines, expressive but natural anime facial features, detailed eyes, refined hair rendering, sophisticated cel shading, smooth gradients, crisp highlights, detailed fabric folds, realistic anime anatomy, cinematic lighting, atmospheric depth, polished professional illustration, high detail, vibrant but natural colors.
+
+PRESERVATION:
+Keep the exact same pose and body position.
+Keep the same facial expression and direction of gaze.
+Keep the same hairstyle and hair color.
+Keep the same clothing, colors, patterns, accessories and jewelry.
+Keep the same background, environment, objects and their positions.
+Keep the same camera perspective, crop and composition.
+Do not add or remove people or important objects.
+
+The final result should look like the ORIGINAL PHOTO was professionally redrawn as a premium Japanese anime scene.
+
+Do not make it look like a generic anime character. The goal is PHOTO → ANIME, not PHOTO → NEW CHARACTER.
+
+NEGATIVE PROMPT:
+Do not redesign the character, do not change identity, do not change hairstyle, do not change clothing, do not change pose, do not change camera angle, do not change composition, do not change background, do not add characters, do not remove important objects, no extra fingers, no extra limbs, no distorted anatomy, no deformed face, no 3D CGI, no plastic skin, no photorealism, no random objects, no logos added, no watermark.`
+  },
+  {
+    title: "ترمیم و بازسازی عکس‌های قدیمی یا بی‌کیفیت",
+    text: `ادیت و بازسازی عکس های قدیمی یا بی کیفیت
+
+Upgrade the uploaded image into a pristine, ultra-high-definition cinematic version while preserving the subject with absolute f
+idelity. The person’s identity, facial anatomy, expression, body posture, clothing, accessories, environment, framing, and overall composition must remain completely unchanged. Do not modify, reinterpret, replace, or introduce any new visual elements.
+
+Reconstruct and refine micro-level details including precise facial contours, authentic skin texture with naturally visible pores, individually defined hair strands, sharp and lifelike eyes, and clean, well-resolved edges throughout the image. Enhance dynamic range, contrast, and dimensional depth using balanced, studio-quality cinematic lighting that respects the original light direction and scene realism.
+
+The result should feel like a professional high-end remaster — poster-level photorealism with accurate textures and zero stylistic alteration. Output in true 8K resolution.`
+  },
+  {
+    title: "ساخت تصویر تبلیغاتی ترند و جذاب",
+    text: `ایجاد عکس تبلیغاتی ترند و جذاب
+
+تصویر:  Ultra-realistic cinematic luxury advertisement of an [UPLOADED PRODUCT] emerging out from an Instagram post displayed on a floating premium smartphone. The Instagram interface should look authentic and ultra-detailed, featuring a customizable Instagram page name “ hooshara ”, profile picture, optional verified badge, caption text, like count, comments, share/save icons, and realistic social media UI elements.  The product dramatically breaks out from the Instagram post into the real world with realistic depth, perspective, shadows, reflections, and environmental interaction. The smartphone screen cracks with shattered glass, floating digital fragments, pixel distortion, cinematic motion blur, and realistic screen-breaking effects.  Dynamic product-specific effects automatically adapt to the product type:perfumes/drinks → liquid splashes, mist, condensation  skincare/cosmetics → glossy cream textures, water droplets, soft glow  food → crumbs, spices, steam, sauce splashes  tech/gadgets → sparks, smoke, neon particles  fashion → flowing fabric motion, dust particles  Premium commercial photography, hyper-realistic CGI, macro details, realistic textures, cinematic studio lighting, glossy reflections, shallow depth of field, floating composition, luxury Instagram/TikTok campaign aesthetic, ultra-detailed 8K render, believable realism, dramatic visual storytelling, viral social media advertisement style.-  final out put image aspect ratio - 9:16  ویدیو:  Ultra-realistic cinematic product shot. Keep the entire scene perfectly frozen and unchanged: no object movement, no deformation, no floating particles moving, no glass breaking further, no chips, no snack pieces, no phone screen changes, no text changes, no logo changes, no lighting changes, no morphing, no warping. Everything in the image must remain completely static and locked in place.  Only the camera should move: a very slow, subtle half-orbit / half-circle camera move around the scene, with smooth cinematic parallax and a slight perspective shift. The subject, phone, products, shards, background, UI, and all elements must stay exactly the same position and shape. No motion blur on objects. No shaking. No zooming in or out. No scene transitions. No new elements. No animated effects.  The final result should feel like a premium cinematic 3D product advertisement, with only the camera moving while everything inside the frame remains fully still and identical to the original image`
+  }
+];
+
+/* ============================================================
+   ساخت کارت‌ها
+   ============================================================ */
+const grid = document.getElementById('grid');
+const toast = document.getElementById('toast');
+const toastText = toast.textContent;
+const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+
+PROMPTS.forEach((p, i) => {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.innerHTML = `
+    <div>
+      <div class="card-top">
+        <div class="num">${i + 1}</div>
+        <h3>${p.title}</h3>
+      </div>
+    </div>
+    <button class="btn" data-index="${i}" aria-label="کپی پرامپت ${p.title}">
+      ${copyIcon}<span>کپی پرامپت</span>
+    </button>
+  `;
+  grid.appendChild(card);
+});
+
+/* ============================================================
+   کپی کردن پرامپت + نمایش پیام
+   ============================================================ */
+let toastTimer = null;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1900);
+}
+
+async function copyText(text){
+  try{
+    if (navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(e){ /* fallthrough */ }
+
+  // fallback برای مرورگرهای قدیمی / غیر HTTPS
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){
+    return false;
+  }
+}
+
+grid.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.btn');
+  if(!btn) return;
+
+  const idx = Number(btn.dataset.index);
+  const prompt = PROMPTS[idx];
+  if(!prompt) return;
+
+  const ok = await copyText(prompt.text);
+
+  if(ok){
+    const label = btn.querySelector('span');
+    const original = label.textContent;
+    btn.classList.add('copied');
+    label.textContent = 'کپی شد ✓';
+    btn.querySelector('svg').outerHTML = checkIcon;
+    showToast('کپی شد ✓');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      label.textContent = 'کپی پرامپت';
+      btn.querySelector('svg').outerHTML = copyIcon;
+    }, 1800);
+  }else{
+    showToast('کپی ناموفق بود — دوباره تلاش کنید');
+  }
+});
+</script>
+</body>
+</html>
